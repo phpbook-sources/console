@@ -1,5 +1,5 @@
     
-+ [About Console](#about-Console)
++ [About Console](#about-console)
 + [Composer Install](#composer-install)
 + [Declare Configurations](#declare-configurations)
 + [Register Console Controller](#register-console-controller)
