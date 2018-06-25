@@ -1,0 +1,23 @@
+{
+    "name": "phpbook/console",
+    "type": "library",
+    "description": "PHP Console Library",
+    "keywords": ["php","console", "fast", "lightweight"],
+    "homepage": "https://github.com/phpbook-sources/console",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "PHPBook",
+            "email": "phpbook@programmer.net",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=7.1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "PHPBook\\Console\\": "library/"
+        }
+    }
+}
