@@ -10,7 +10,7 @@
 
 ### About Console
 
-- A PHP library to run asynchronous console in console.
+- A PHP library to run asynchronous task in console.
 - Requires PHP Extension COM on Windows.
 
 ### Composer Install
