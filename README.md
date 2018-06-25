@@ -31,7 +31,7 @@
 //you php bin path
 \PHPBook\Console\Configuration\Request::setPHPPath('php/bin/path');
 
-//the php script console file, read below the link [Start Application Console](#start-application-console)
+//the php script console file, read below the link [Start Application Console]
 \PHPBook\Console\Configuration\Request::setConsoleScriptPath(__DIR__ . DIRECTORY_SEPARATOR . 'console.php');
 
 
