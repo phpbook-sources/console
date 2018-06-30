@@ -16,129 +16,149 @@ abstract class Console {
 
 	public static function run($resourceName, $resourceArguments): Bool {
 
-		$resources = \PHPBook\Console\Request::getResources();
+		try {
 
-		foreach($resources as $resource) {
+			$resources = \PHPBook\Console\Request::getResources();
 
-			if ($resource->getName() == $resourceName) {
+			foreach($resources as $resource) {
 
-				$run = \PHPBook\Console\Configuration\Request::getPHPPath() . ' ' . \PHPBook\Console\Configuration\Request::getConsoleScriptPath()  . ' ' . $resourceName . ' ' . implode(' ', $resourceArguments);
+				if ($resource->getName() == $resourceName) {
 
-				switch(\PHPBook\Console\Script::getOS()) {
+					$run = \PHPBook\Console\Configuration\Request::getPHPPath() . ' ' . \PHPBook\Console\Configuration\Request::getConsoleScriptPath()  . ' ' . $resourceName . ' ' . implode(' ', $resourceArguments);
 
-					case \PHPBook\Console\Script::$OS_WINDOWS:
+					switch(\PHPBook\Console\Script::getOS()) {
 
-						if (class_exists('\\COM')) {
+						case \PHPBook\Console\Script::$OS_WINDOWS:
+
+							if (class_exists('\\COM')) {
+
+								try {
+									
+									$WshShell = new \COM("WScript.Shell");
+
+									$WshShell->Run($run, 0, false);
+			
+									return true;
+									
+								} catch(\Exception $e) {
+
+									return false;
+									
+								};					
+
+							};
+
+							break;
+
+						case \PHPBook\Console\Script::$OS_UNIX;
 
 							try {
-								
-								$WshShell = new \COM("WScript.Shell");
 
-								$WshShell->Run($run, 0, false);
-		
+								exec($run . " > /dev/null &");
+
 								return true;
-								
+
 							} catch(\Exception $e) {
 
 								return false;
-								
-							};					
 
-						};
+							};	
 
-						break;
+							break;
 
-					case \PHPBook\Console\Script::$OS_UNIX;
-
-						try {
-
-							exec($run . " > /dev/null &");
-
-							return true;
-
-						} catch(\Exception $e) {
-
-							return false;
-
-						};	
-
-						break;
+					};
 
 				};
 
 			};
 
-		};
+			return false;
+			
+		} catch(\Exception $e) {
 
-		return false;
+			print '###################################################' . PHP_EOL;
+			print 'EXCEPTION - RUN - ' . $e->getMessage() . PHP_EOL . PHP_EOL;
+			print '###################################################' . PHP_EOL;
+
+		};	
 
 	}
 
 	public static function start() {
 
-		$resources = \PHPBook\Console\Request::getResources();
+		try {
 
-		if (Static::getArguments(1)) {
+			$resources = \PHPBook\Console\Request::getResources();
 
-			$handler = Null;
-	
-			foreach($resources as $resource) {
-				
-				if ($resource->getName() == Static::getArguments(1)) {
-	
-					$handler = $resource;
-	
-					break;
-	
+			if (Static::getArguments(1)) {
+
+				$handler = Null;
+		
+				foreach($resources as $resource) {
+					
+					if ($resource->getName() == Static::getArguments(1)) {
+		
+						$handler = $resource;
+		
+						break;
+		
+					};
+		
 				};
-	
-			};
-	
-			if ($handler) {
-				
-				list($classController, $method) = $handler->getController();
-				
-				$controller = new $classController;
+		
+				if ($handler) {
+					
+					list($classController, $method) = $handler->getController();
+					
+					$controller = new $classController;
 
-				$arguments = [];
-	
-				foreach($handler->getArguments() as $sequence => $argument) {
-					$arguments[] = Static::getArguments($sequence + 2);
-				};
+					$arguments = [];
+		
+					foreach($handler->getArguments() as $sequence => $argument) {
+						$arguments[] = Static::getArguments($sequence + 2);
+					};
 
-				call_user_func_array(array($controller, $method), $arguments);
+					call_user_func_array(array($controller, $method), $arguments);
 
+				} else {
+		
+					print 'Resource "' . Static::getArguments(1) . '" Not Found!'  . PHP_EOL;
+		
+				};       
+		
 			} else {
-	
-				print 'Resource "' . Static::getArguments(1) . '" Not Found!'  . PHP_EOL;
-	
-			};       
-	
-		} else {
-	
-			print PHP_EOL;
-	
-			print '###################################################' . PHP_EOL;
-			print '##           		Resources'						. PHP_EOL;
-			print '###################################################' . PHP_EOL;
-	
-			print PHP_EOL;
-	
-			foreach($resources as $resource) {
-				
-				print 'notes: ' . $resource->getNotes() . PHP_EOL;
-	
-				print 'resource: ' . $resource->getName() . PHP_EOL;
-				
-				print 'arguments: ' . implode('|', $resource->getArguments()) . PHP_EOL;
-	
-				print 'example: ' . \PHPBook\Console\Configuration\Request::getPHPPath() . ' ' . \PHPBook\Console\Configuration\Request::getConsoleScriptPath() . ' ' . $resource->getName() . ' ' . implode(' ', $resource->getArguments()) . PHP_EOL;
-	
-				print '..................................................' . PHP_EOL . PHP_EOL;
-	
+		
+				print PHP_EOL;
+		
+				print '###################################################' . PHP_EOL;
+				print '##           		Resources'						. PHP_EOL;
+				print '###################################################' . PHP_EOL;
+		
+				print PHP_EOL;
+		
+				foreach($resources as $resource) {
+					
+					print 'notes: ' . $resource->getNotes() . PHP_EOL;
+		
+					print 'resource: ' . $resource->getName() . PHP_EOL;
+					
+					print 'arguments: ' . implode('|', $resource->getArguments()) . PHP_EOL;
+		
+					print 'example: ' . \PHPBook\Console\Configuration\Request::getPHPPath() . ' ' . \PHPBook\Console\Configuration\Request::getConsoleScriptPath() . ' ' . $resource->getName() . ' ' . implode(' ', $resource->getArguments()) . PHP_EOL;
+		
+					print '..................................................' . PHP_EOL . PHP_EOL;
+		
+				};
+		
 			};
-	
-		};
+			
+		} catch(\Exception $e) {
+
+			print '###################################################' . PHP_EOL;
+			print 'EXCEPTION - START - ' . $e->getMessage() . PHP_EOL . PHP_EOL;
+			print '###################################################' . PHP_EOL;
+
+		};	
 
 	}
 
