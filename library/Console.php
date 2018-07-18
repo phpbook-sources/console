@@ -135,19 +135,29 @@ abstract class Console {
 				print '###################################################' . PHP_EOL;
 		
 				print PHP_EOL;
-		
-				foreach($resources as $resource) {
+				
+				if (count($resources) > 0) {
+
+					foreach($resources as $resource) {
 					
-					print 'notes: ' . $resource->getNotes() . PHP_EOL;
-		
-					print 'resource: ' . $resource->getName() . PHP_EOL;
+						print 'notes: ' . $resource->getNotes() . PHP_EOL;
+			
+						print 'resource: ' . $resource->getName() . PHP_EOL;
+						
+						print 'arguments: ' . implode('|', $resource->getArguments()) . PHP_EOL;
+			
+						print 'example: ' . \PHPBook\Console\Configuration\Request::getPHPPath() . ' ' . \PHPBook\Console\Configuration\Request::getConsoleScriptPath() . ' ' . $resource->getName() . ' ' . implode(' ', $resource->getArguments()) . PHP_EOL;
+			
+						print '..................................................' . PHP_EOL . PHP_EOL;
+			
+					};
+
+				} else {
 					
-					print 'arguments: ' . implode('|', $resource->getArguments()) . PHP_EOL;
-		
-					print 'example: ' . \PHPBook\Console\Configuration\Request::getPHPPath() . ' ' . \PHPBook\Console\Configuration\Request::getConsoleScriptPath() . ' ' . $resource->getName() . ' ' . implode(' ', $resource->getArguments()) . PHP_EOL;
-		
+					print 'There is no resources available' . PHP_EOL . PHP_EOL;
+
 					print '..................................................' . PHP_EOL . PHP_EOL;
-		
+
 				};
 		
 			};
