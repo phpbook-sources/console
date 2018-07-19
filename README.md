@@ -2,9 +2,10 @@
 + [About Console](#about-console)
 + [Composer Install](#composer-install)
 + [Declare Configurations](#declare-configurations)
-+ [Register Console Controller](#register-console-controller)
 + [Declare Console Controller](#declare-console-controller)
 + [Console Run Resource](#console-run-resource)
++ [Generate Request Proxies](#generate-request-proxies)
++ [Start Request Proxies](#start-request-proxies)
 + [Start Application Console](#start-application-console)
 + [Scheduler](#scheduler)
 
@@ -29,30 +30,24 @@
 * ******************************************/
 
 //you php bin path
+//Default "php"
 \PHPBook\Console\Configuration\Request::setPHPPath('php/bin/path');
 
 //the php script console file, read below the link [Start Application Console]
+//Default null
 \PHPBook\Console\Configuration\Request::setConsoleScriptPath(__DIR__ . DIRECTORY_SEPARATOR . 'console.php');
 
+//Controllers path, the phpbook will load all controllers by folders recursively inside
+//Default null. But its required to set if you want use phpbook console.
+\PHPBook\Console\Configuration\Request::setControllersPathRoot('controllers');
 
-```
+//Controllers proxies path, the phpbook will generate the proxies based on controllers
+//Default null. But its required to set if you want use phpbook console.
+\PHPBook\Console\Configuration\Request::setProxiesPathRoot('proxies');
 
-### Register Console Controller
-
-```php
-<?php
-
-/***************************************************
-* 
-*  Register Console Controller
-* 
-* *************************************************/
-
-\PHPBook\Console\Request::setResource((new \PHPBook\Console\Resource())
-	->setName('resource')
-	->setNotes('Any important note')
-	->setController('ConsoleController', 'runConsole')
-	->setArguments(['name', 'age']));
+//Controllers proxies namespace, the phpbook will generate the proxies classes using this namespace
+//Default null. But its required to set if you want use phpbook console.
+\PHPBook\Console\Configuration\Request::setProxiesNamespace('App\Controllers');
 
 ```
 
@@ -69,6 +64,13 @@
 
 class ConsoleController {
 
+	/**
+	 * @PHPBookConsoleRequestResource{
+	 *      "setName": "'greetings'"
+	 * 		"setNotes": "'Any important note'"
+	 * 		"setArguments": "['name', 'age']"
+	 * }
+	 */
 	public function runConsole($name, $age) {
 		
 		//your console here
@@ -87,6 +89,9 @@ class ConsoleController {
 
 				break;
 		};
+
+		//you can write script line
+		\PHPBook\Console\Script::echo('Hello Jhon');
 
 		//you can kill the script process
 		\PHPBook\Console\Script::kill();
@@ -126,6 +131,44 @@ if ($run) {
 	//start error
 };
 
+```
+
+##### Generate Request Proxies
+
+```php
+<?php
+
+/***************************************************
+* 
+*  Generate Request Proxies
+* 
+* *************************************************/
+
+/* You must generate or re-generate de proxy file when create or change controllers notations */
+
+/* You cannot start console without proxies */
+
+\PHPBook\Console\Proxy::generate();
+
+?>
+```
+
+##### Start Request Proxies
+
+```php
+<?php
+
+/***************************************************
+* 
+*  Start Request Proxies
+* 
+* *************************************************/
+
+/* You must start proxies before start the console */
+
+\PHPBook\Console\Proxy::start();
+
+?>
 ```
 
 ##### Start Application Console

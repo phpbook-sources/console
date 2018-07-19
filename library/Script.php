@@ -40,6 +40,12 @@ abstract class Script {
 		
 	}
 
+	public static function echo(String $message) {
+
+		echo $message . PHP_EOL;
+		
+	}
+
 	public static function kill() {
 
 		exit;
