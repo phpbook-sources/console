@@ -85,13 +85,19 @@ abstract class Proxy {
 
         $classProxy = '\\' . \PHPBook\Console\Configuration\Request::getProxiesNamespace() . '\\\Proxy'::class;
 
-        if (!class_exists($classProxy)) {
+        $classFile = \PHPBook\Console\Configuration\Request::getProxiesPathRoot() . DIRECTORY_SEPARATOR . 'Proxy.php';
 
-            require_once \PHPBook\Console\Configuration\Request::getProxiesPathRoot() . DIRECTORY_SEPARATOR . 'Proxy.php';
+        if ((!class_exists($classProxy)) and (file_exists($classFile))) {
+    
+            require_once $classFile;
 
         };
 
-        $classProxy::init();
+        if (class_exists($classProxy)) {
+
+            $classProxy::init();
+
+        };
 
     }
 
