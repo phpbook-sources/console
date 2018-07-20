@@ -144,6 +144,8 @@ if ($run) {
 * 
 * *************************************************/
 
+/* The Directory will be cleared recursively before generate, so you should have a unique folder to this proxies.*/
+
 /* You must generate or re-generate de proxy file when create or change controllers notations */
 
 /* You cannot start console without proxies */

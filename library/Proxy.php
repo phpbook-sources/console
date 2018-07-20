@@ -4,6 +4,20 @@ abstract class Proxy {
 
     private static $started = false;
     
+    private static function clearPathRecursive($dir, $initial = true) { 
+
+        $files = array_diff(scandir($dir), array('.','..')); 
+
+        foreach ($files as $file) { 
+            (is_dir("$dir/$file")) ? Static::clearPathRecursive("$dir/$file", false) : unlink("$dir/$file"); 
+        };
+
+        if (!$initial) {
+            return rmdir($dir); 
+        };
+
+    }
+
     public static function generate() {
 
         $allFiles = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator(\PHPBook\Console\Configuration\Request::getControllersPathRoot()));
@@ -57,6 +71,8 @@ abstract class Proxy {
         $contents .= $classesProxies . PHP_EOL;
         $contents .= "\t" . '}' . PHP_EOL . PHP_EOL;
         $contents .= '}' . PHP_EOL;
+        
+        Static::clearPathRecursive(\PHPBook\Console\Configuration\Request::getProxiesPathRoot());
 
         file_put_contents(\PHPBook\Console\Configuration\Request::getProxiesPathRoot() . DIRECTORY_SEPARATOR . 'PHPBook_Console_Proxy.php', $contents);
 
