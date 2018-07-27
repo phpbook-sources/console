@@ -74,6 +74,8 @@ class ConsoleController {
 	public function runConsole($name, $age) {
 		
 		//your console here
+
+		//when a parameter is not defined in prompt the value will be null.
 		$name; $age;
 
 		//set the time to the script finish, zero to unlimited time
