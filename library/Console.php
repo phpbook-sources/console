@@ -144,10 +144,10 @@ abstract class Console {
 			
 						print 'resource: ' . $resource->getName() . PHP_EOL;
 						
-						print 'arguments: ' . implode('|', $resource->getArguments()) . PHP_EOL;
+						print 'arguments: ' . (count($resource->getArguments()) ? implode('|', $resource->getArguments()) : '- it has no arguments -'). PHP_EOL;
 			
-						print 'example: ' . \PHPBook\Console\Configuration\Request::getPHPPath() . ' ' . \PHPBook\Console\Configuration\Request::getConsoleScriptPath() . ' ' . $resource->getName() . ' ' . implode(' ', $resource->getArguments()) . PHP_EOL;
-			
+						print 'example: ' . \PHPBook\Console\Configuration\Request::getPHPPath() . ' ' . Static::getArguments(0) . ' ' . $resource->getName() . ' ' . implode(' ', $resource->getArguments()) . PHP_EOL;
+						
 						print '..................................................' . PHP_EOL . PHP_EOL;
 			
 					};
