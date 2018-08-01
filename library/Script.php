@@ -40,9 +40,15 @@ abstract class Script {
 		
 	}
 
-	public static function echo(String $message) {
+	public static function echoLine(String $message) {
 
 		echo $message . PHP_EOL;
+		
+	}
+
+	public static function echoBreakLine() {
+
+		echo PHP_EOL;
 		
 	}
 

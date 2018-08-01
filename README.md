@@ -92,8 +92,11 @@ class ConsoleController {
 				break;
 		};
 
-		//you can write script line
-		\PHPBook\Console\Script::echo('Hello Jhon');
+		//you can write script line with auto break line
+		\PHPBook\Console\Script::echoLine('Hello Jhon');
+
+		//you can write a break line, but echoLine auto breaks the line also
+		\PHPBook\Console\Script::echoBreakLine();
 
 		//you can kill the script process
 		\PHPBook\Console\Script::kill();
