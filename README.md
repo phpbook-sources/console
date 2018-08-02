@@ -98,6 +98,16 @@ class ConsoleController {
 		//you can write a break line, but echoLine auto breaks the line also
 		\PHPBook\Console\Script::echoBreakLine();
 
+		//you can write a table
+		\PHPBook\Console\Script::echoTable(
+			'My Table Label',
+			['name' => 'Name', 'age' => 'Age'],
+			[
+				['name' => 'Jhon', 'age' => 20], 
+				['name' => 'Ana', 'age' => 21]
+			]
+		);
+
 		//you can kill the script process
 		\PHPBook\Console\Script::kill();
 
