@@ -53,6 +53,8 @@
 
 ##### Declare Console Controller
 
+PHPBook Console uses docs notations to declare request resources.
+
 ```php
 <?php
 
@@ -215,4 +217,4 @@ You can execute console with "php console.php resoure-name parameter-one paramet
 
 ### Scheduler
 
-- You need register the php console scripts inside your s.o. server environment scheduler. Each operating system and its server has its way of registering as console scheduler.
+- You need register the php console scripts inside your s.o. server environment scheduler. Each operating system and its server has its way to register.
